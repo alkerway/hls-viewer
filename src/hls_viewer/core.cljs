@@ -5,20 +5,30 @@
 
 (enable-console-print!)
 
-(defn requestSetLevel [url]
-  (println "aylmao"))
-(rum/defc headerContainer [url]
+(defn func [] "aylmao")
+
+(defn setManifestText [urlAtom textAtom]
+  (reset! textAtom (reqs/getManifest urlAtom)))
+
+
+(rum/defc displayContainer < rum/reactive
+  [displayText]
+  [:div (rum/react displayText)])
+
+(rum/defc headerContainer [url displayText]
   [:div
    [:input {:placeholder "manifest"
             :on-change #(reset! url (.. % -target -value))
             }]
    [:button {
-             :on-click #(requestSetLevel url)
+             :on-click #(setManifestText @url displayText)
              } "load"]])
 
 (rum/defc wrapper []
-  (let [url (atom "")]
-  (headerContainer url)))
+  (let [url (atom "")
+        displayText (atom [])]
+    [(headerContainer url displayText)
+    (displayContainer displayText)]))
 
 (defn init [] (rum/mount (wrapper)
               (.getElementById js/document "app")))
