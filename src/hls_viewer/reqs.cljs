@@ -1,10 +1,12 @@
 
 (ns hls-viewer.reqs
   (:require-macros [cljs.core.async.macros :refer [go]])
-  (:require [cljs-http.client :as http]
+  (:require [clojure.string :as cljstr]
+            [cljs-http.client :as http]
             [cljs.core.async :refer [<!]]))
 
 
 (defn getManifest [url]
   (if (re-matches #"http.*" url)
-    (go (:body (<! (http/get url {:with-credentials? false}))))))
+    (go (cljstr/split-lines (:body (<!
+       (http/get url {:with-credentials? false})))))))

@@ -16,7 +16,15 @@
 
 (rum/defc displayContainer < rum/reactive
   [displayText]
-  [:div (rum/react displayText)])
+  [:div {:style {:font-size "12px"}}
+   (for [line (rum/react displayText)]
+     [:div [:span
+            (if (re-matches #".+\.(m3u8|ts)" line) {:style
+                                                    {
+                                                     :color "blue"
+                                                     :cursor "pointer"
+                                                     }})
+          line]])])
 
 (rum/defc headerContainer [url displayText]
   [:div
