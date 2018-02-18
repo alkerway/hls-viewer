@@ -1,15 +1,24 @@
 (ns hls-viewer.core
-    (:require [rum.core :as rum]))
+  (:require
+   [hls-viewer.reqs :as reqs]
+   [rum.core :as rum]))
 
 (enable-console-print!)
 
-(rum/defc headerContainer []
+(defn requestSetLevel [url]
+  (println "aylmao"))
+(rum/defc headerContainer [url]
   [:div
-   [:input]
-   [:button "load"]])
+   [:input {:placeholder "manifest"
+            :on-change #(reset! url (.. % -target -value))
+            }]
+   [:button {
+             :on-click #(requestSetLevel url)
+             } "load"]])
 
 (rum/defc wrapper []
-  (headerContainer))
+  (let [url (atom "")]
+  (headerContainer url)))
 
 (defn init [] (rum/mount (wrapper)
               (.getElementById js/document "app")))

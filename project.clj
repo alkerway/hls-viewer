@@ -10,6 +10,7 @@
 
   :dependencies [[org.clojure/clojure "1.9.0-beta4"]
                  [org.clojure/clojurescript "1.9.946"]
+                 [cljs-http "0.1.44"]
                  [org.clojure/core.async  "0.3.443"]
 		 [rum "0.11.1"]]
 
