@@ -6,7 +6,5 @@
 
 
 (defn getManifest [url]
-  (go (let [response (<! (http/get "https://api.github.com/users"
-                                 {:with-credentials? false
-                                  :query-params {"since" 135}}))]
-      (println (:body response)))))
+  (if (re-matches #"http.*" url)
+    (go (:body (<! (http/get url {:with-credentials? false}))))))

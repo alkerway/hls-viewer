@@ -1,14 +1,17 @@
 (ns hls-viewer.core
+  (:require-macros [cljs.core.async.macros :refer [go]])
   (:require
    [hls-viewer.reqs :as reqs]
+   [cljs.core.async :refer [<!]]
    [rum.core :as rum]))
 
 (enable-console-print!)
 
 (defn func [] "aylmao")
 
-(defn setManifestText [urlAtom textAtom]
-  (reset! textAtom (reqs/getManifest urlAtom)))
+(defn setManifestText [url textAtom]
+  (go (let [manifest (<! (reqs/getManifest url))]
+        (reset! textAtom manifest))))
 
 
 (rum/defc displayContainer < rum/reactive
