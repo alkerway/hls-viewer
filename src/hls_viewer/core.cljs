@@ -37,12 +37,11 @@
                     :background-color "inherit"
                     :color "inherit"
                     }
-            :placeholder "manifest"
+            :placeholder "Enter Manifest"
             :on-change #(reset! url (.. % -target -value))
-            :on-key-up #(.. % -currentTarget)
-            }]
-   [:button {:on-click #(setManifestText @url displayText)
-             } "load"]])
+            :on-key-up #(if (= "Enter" (.. % -key))
+                          (setManifestText @url displayText))
+            }]])
 
 (rum/defc wrapper []
   (let [url (atom "")

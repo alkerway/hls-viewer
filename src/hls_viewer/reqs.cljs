@@ -8,7 +8,11 @@
 
 (defn getManifest [url]
   (if (re-matches #"http.*" url)
-    (go (cljstr/split-lines (:body (<!
-       (http/get url {:with-credentials? false})))))))
+    (go (let [response (<! (http/get url {:with-credentials? false}))
+              code (:status response)]
+          (if (and (>= code 200) (< code 300))
+            (cljstr/split-lines  (:body response))
+              ["Failed" (str "Status: " code)])))
+        (go ["Invalid Url"])))
 
 (defn downloadUrl [url] "")
