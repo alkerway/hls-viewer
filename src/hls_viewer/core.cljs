@@ -8,8 +8,6 @@
 
 (enable-console-print!)
 
-(defn func [] "aylmao")
-
 (defn setManifestText [url textAtom]
   (go (let [manifest (<! (reqs/getManifest url))]
         (reset! textAtom manifest))))
@@ -44,7 +42,7 @@
             :placeholder "Enter Manifest"
             :on-change #(reset! url (.. % -target -value))
             :on-key-up #(if (= "Enter" (.. % -key))
-                          (setManifestText @url displayText))
+                           (setManifestText @url displayText))
             }]])
 
 (rum/defc wrapper []
