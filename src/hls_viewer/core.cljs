@@ -13,16 +13,17 @@
   (go (let [manifest (<! (reqs/getManifest url))]
         (reset! textAtom manifest))))
 
-(defn onLineClick [line]
-  (println line))
+(defn onLineClick [line url]
+  (println line)
+  (println @url))
 
 (rum/defc displayContainer < rum/reactive
-  [displayText]
+  [displayText url]
   [:div {:style {:font-size "12px"}}
    (for [line (rum/react displayText)]
      [:div [:span
             (if (re-matches #".+\.(m3u8|ts|vtt)" line)
-              {:on-click #(onLineClick line)
+              {:on-click #(onLineClick line url)
                :style {
                        :color "blue"
                        :cursor "pointer"
@@ -47,7 +48,7 @@
   (let [url (atom "")
         displayText (atom [])]
     [(headerContainer url displayText)
-    (displayContainer displayText)]))
+    (displayContainer displayText url)]))
 
 (defn init [] (rum/mount (wrapper)
               (.getElementById js/document "app")))
