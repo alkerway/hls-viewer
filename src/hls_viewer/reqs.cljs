@@ -10,3 +10,5 @@
   (if (re-matches #"http.*" url)
     (go (cljstr/split-lines (:body (<!
        (http/get url {:with-credentials? false})))))))
+
+(defn downloadUrl [url] "")
