@@ -2,6 +2,7 @@
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require
    [hls-viewer.reqs :as reqs]
+   [hls-viewer.urls :as urlUtil]
    [cljs.core.async :refer [<!]]
    [rum.core :as rum]))
 
@@ -13,9 +14,8 @@
   (go (let [manifest (<! (reqs/getManifest url))]
         (reset! textAtom manifest))))
 
-(defn onLineClick [line url]
-  (println line)
-  (println @url))
+(defn onLineClick [line url textAtom]
+  (setManifestText (urlUtil/constructUrl url line) textAtom))
 
 (rum/defc displayContainer < rum/reactive
   [displayText url]
@@ -23,7 +23,7 @@
    (for [line (rum/react displayText)]
      [:div [:span
             (if (re-matches #".+\.(m3u8|ts|vtt)" line)
-              {:on-click #(onLineClick line url)
+              {:on-click #(onLineClick line url displayText)
                :style {
                        :color "blue"
                        :cursor "pointer"
