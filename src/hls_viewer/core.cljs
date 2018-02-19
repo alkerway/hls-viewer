@@ -14,12 +14,15 @@
   (go (let [manifest (<! (reqs/getManifest url))]
         (reset! textAtom manifest))))
 
-(defn onLineClick [line url textAtom]
-  (setManifestText (urlUtil/constructUrl url line) textAtom))
+(defn onLineClick [line urlAtom textAtom]
+  (let [destUrl  (urlUtil/constructUrl @urlAtom line)]
+    (if (re-matches #".+\.m3u8" destUrl)
+      (setManifestText destUrl textAtom)
+      (reqs/downloadUrl destUrl))))
 
 (rum/defc displayContainer < rum/reactive
   [displayText url]
-  [:div {:style {:font-size "12px"}}
+  [:div {:style {:font-size "12px" :padding "20px"}}
    (for [line (rum/react displayText)]
      [:div [:span
             (if (re-matches #".+\.(m3u8|ts|vtt)" line)

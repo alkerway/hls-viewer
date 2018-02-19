@@ -15,4 +15,5 @@
               ["Failed" (str "Status: " code)]))
         ["Invalid Url"])))
 
-(defn downloadUrl [url] "")
+(defn downloadUrl [url]
+  (.open js/window url))
