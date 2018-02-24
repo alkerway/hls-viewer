@@ -5,3 +5,12 @@ body, html, #app {
     background-color: #1A1A1A;
     color: #C0DEC5;
 }
+
+.clickable {
+    color: #BADA55;
+    cursor: pointer;
+}
+
+.options .clickable {
+    marign: 0 10px;
+}

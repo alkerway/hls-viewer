@@ -31,18 +31,14 @@
      [:div [:span
             (if (re-matches #".+\.(m3u8|ts|vtt)" line)
               {:on-click #(onLineClick line displayText)
-               :style {
-                       :color "#BADA55"
-                       :cursor "pointer"
-                       }}) line]])])
+               :class "clickable"}) line]])])
 (rum/defc options [textAtom]
-  [:div {:style {:font-size "10px"
-                 :text-decoration "underline"
+  [:div.options {:style {:font-size "10px"
                  :user-select "none"}}
-   [:span {:style {:cursor "pointer"}
-           :on-click #(do (reset! currentUrl @setManifestUrl)
-                          (setManifestText @currentUrl textAtom))}
-    "Back to Set Level"]])
+   [:span.clickable {:on-click #(do (reset! currentUrl @setManifestUrl)
+                                (setManifestText @currentUrl textAtom))}
+    "Back to Set Level "]
+   [:span.clickable {:on-click #()} " Copy Url "]])
 
 (rum/defc headerContainer < rum/reactive [displayText]
   [:div {:style {:text-align "center" :padding "10px"}}

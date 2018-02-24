@@ -1,7 +1,0 @@
-(ns hls-viewer.core
-    (:require ))
-
-(enable-console-print!)
-(defn randstr [length] "aylmao")
-(defn init [] (println "aylmao"))
-(defn on-js-reload [] (init))
