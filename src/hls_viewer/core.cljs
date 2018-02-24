@@ -10,16 +10,19 @@
 (def currentUrl (atom ""))
 (def setManifestUrl (atom ""))
 
+(defn setInputVal [val]
+  (set! (.-value
+         (.getElementById js/document "urlInput")) val))
+
 (defn setManifestText [url textAtom]
   (go (let [manifest (<! (reqs/getManifest url))]
         (if (some #(re-find #".m3u8" %) manifest)
           (reset! setManifestUrl url))
         (reset! textAtom manifest)
-        (reset! currentUrl @setManifestUrl))))
+        (setInputVal url))))
 
 (defn onLineClick [line textAtom]
   (let [destUrl  (urlUtil/constructUrl @currentUrl line)]
-    (println @currentUrl)
     (if (re-matches #".+\.m3u8" destUrl)
       (setManifestText destUrl textAtom)
       (reqs/downloadUrl destUrl))))
@@ -42,19 +45,19 @@
 
 (rum/defc headerContainer < rum/reactive [displayText]
   [:div {:style {:text-align "center" :padding "10px"}}
-   [:input {:style {:border 0
+   [:input#urlInput {:style {:border 0
                     :border-bottom "1px solid #C0DEC5"
                     :outline "none"
                     :width "400px"
                     :background-color "inherit"
                     :color "inherit"
                     }
-            :value (rum/react currentUrl)
             :placeholder "Enter Manifest"
             :on-change #(reset! currentUrl (.. % -target -value))
             :on-key-up #(if (= "Enter" (.. % -key))
                            (setManifestText @currentUrl displayText))
-            }] (options displayText)])
+                     }] (if (not-empty (rum/react setManifestUrl))
+                        (options displayText))])
 
 (rum/defc wrapper []
   (let [displayText (atom [])]
