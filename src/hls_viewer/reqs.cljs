@@ -17,3 +17,16 @@
 
 (defn downloadUrl [url]
   (.open js/window url))
+
+(defn copyText [text]
+  (let [el (js/document.createElement "textarea")]
+    (set! (.-value el) text)
+    (set! (.-style el) #js {:position "absolute"
+                            :left "-9999px"
+                            :top "-10px"
+                            :padding "0"
+                            :margin "0"})
+    (.appendChild js/document.body el)
+    (.select el)
+    (.execCommand js/document "copy")
+    (.removeChild js/document.body el)))

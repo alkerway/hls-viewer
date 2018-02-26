@@ -35,32 +35,34 @@
             (if (re-matches #".+\.(m3u8|ts|vtt)" line)
               {:on-click #(onLineClick line displayText)
                :class "clickable"}) line]])])
-(rum/defc options [textAtom]
+
+(rum/defc optionsContainer < rum/reactive [textAtom]
   [:div.options {:style {:font-size "10px"
                  :user-select "none"}}
    [:span.clickable {:on-click #(do (reset! currentUrl @setManifestUrl)
                                 (setManifestText @currentUrl textAtom))}
-    "Back to Set Level "]
-   [:span.clickable {:on-click #()} " Copy Url "]])
+    "Back to Set Level"]
+   [:span.clickable {:on-click #(reqs/copyText (rum/react currentUrl))}
+    "Copy Url"]])
 
 (rum/defc headerContainer < rum/reactive [displayText]
   [:div {:style {:text-align "center" :padding "10px"}}
-   [:input#urlInput {:style {:border 0
-                    :border-bottom "1px solid #C0DEC5"
-                    :outline "none"
-                    :width "400px"
-                    :background-color "inherit"
-                    :color "inherit"
+   [:input#urlInput {:style {
+                       :border 0
+                       :border-bottom "1px solid #C0DEC5"
+                       :outline "none"
+                       :width "400px"
+                       :background-color "inherit"
+                       :color "inherit"
                     }
             :placeholder "Enter Manifest"
             :on-change #(reset! currentUrl (.. % -target -value))
             :on-key-up #(if (= "Enter" (.. % -key))
                            (setManifestText @currentUrl displayText))
                      }] (if (not-empty (rum/react setManifestUrl))
-                        (options displayText))])
+                          (optionsContainer displayText))])
 
-(rum/defc wrapper []
-  (let [displayText (atom [])]
+(rum/defc wrapper []  (let [displayText (atom [])]
     [(headerContainer displayText)
     (displayContainer displayText)]))
 
