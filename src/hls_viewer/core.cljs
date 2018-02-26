@@ -75,8 +75,16 @@
             :on-change #(reset! currentUrl (.. % -target -value))
             :on-key-up #(if (= "Enter" (.. % -key))
                            (setManifestText @currentUrl displayText))
-                     }] (if (not-empty (rum/react setManifestUrl))
-                          (optionsContainer displayText))])
+                     }]
+   [:button.clickable {:on-click #(setManifestText @currentUrl displayText)
+                       :style {:background-color "#1A1A1A"
+                               :border "2px solid #BADA55"
+                               :margin "0 5px"
+                               :border-radius "5px"
+                               :outline "none"
+                           }} "GET"]
+   (if (not-empty (rum/react setManifestUrl))
+       (optionsContainer displayText))])
 
 (rum/defc wrapper []  (let [displayText (atom [])]
     [(headerContainer displayText)
