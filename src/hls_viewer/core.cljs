@@ -16,6 +16,7 @@
     (.getElementById js/document "urlInput")) val))
 
 (defn setManifestText [url textAtom]
+  (reset! textAtom ["Loading..."])
   (go (let [manifest (<! (reqs/getManifest url))]
         (if (some #(re-find #".m3u8" %) manifest)
           (reset! setManifestUrl url))
@@ -51,7 +52,8 @@
    [:span.clickable {:on-click #(copyCurrentUrl)}
     "Copy Url"]
    [:span.clickable {:on-click #(copyManifest textAtom)}
-    "Copy Manifest"]])
+    "Copy Manifest"]
+   ])
 
 (rum/defc headerContainer < rum/reactive [displayText]
   [:div {:style {:text-align "center" :padding "10px"}}
