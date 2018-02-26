@@ -7,25 +7,31 @@
    [rum.core :as rum]))
 
 (enable-console-print!)
-(def currentUrl (atom ""))
+(def currentUrl (atom "aa"))
 (def setManifestUrl (atom ""))
 
-(defn setInputVal [val]
+(defn setCurrentUrl [val]
+  (reset! currentUrl val)
   (set! (.-value
-         (.getElementById js/document "urlInput")) val))
+    (.getElementById js/document "urlInput")) val))
 
 (defn setManifestText [url textAtom]
   (go (let [manifest (<! (reqs/getManifest url))]
         (if (some #(re-find #".m3u8" %) manifest)
           (reset! setManifestUrl url))
         (reset! textAtom manifest)
-        (setInputVal url))))
+        (setCurrentUrl url))))
 
 (defn onLineClick [line textAtom]
   (let [destUrl  (urlUtil/constructUrl @currentUrl line)]
     (if (re-matches #".+\.m3u8" destUrl)
       (setManifestText destUrl textAtom)
       (reqs/downloadUrl destUrl))))
+
+(defn copyCurrentUrl []
+  (println @currentUrl)
+  (reqs/copyText @currentUrl))
+(defn copyManifest [textAtom] (reqs/copyVector @textAtom))
 
 (rum/defc displayContainer < rum/reactive
   [displayText]
@@ -42,8 +48,10 @@
    [:span.clickable {:on-click #(do (reset! currentUrl @setManifestUrl)
                                 (setManifestText @currentUrl textAtom))}
     "Back to Set Level"]
-   [:span.clickable {:on-click #(reqs/copyText (rum/react currentUrl))}
-    "Copy Url"]])
+   [:span.clickable {:on-click #(copyCurrentUrl)}
+    "Copy Url"]
+   [:span.clickable {:on-click #(copyManifest textAtom)}
+    "Copy Manifest"]])
 
 (rum/defc headerContainer < rum/reactive [displayText]
   [:div {:style {:text-align "center" :padding "10px"}}
@@ -54,7 +62,7 @@
                        :width "400px"
                        :background-color "inherit"
                        :color "inherit"
-                    }
+                             }
             :placeholder "Enter Manifest"
             :on-change #(reset! currentUrl (.. % -target -value))
             :on-key-up #(if (= "Enter" (.. % -key))

@@ -30,3 +30,6 @@
     (.select el)
     (.execCommand js/document "copy")
     (.removeChild js/document.body el)))
+
+(defn copyVector [vec]
+  (copyText (cljstr/join "\n" vec)))
