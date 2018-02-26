@@ -7,7 +7,7 @@
    [rum.core :as rum]))
 
 (enable-console-print!)
-(def currentUrl (atom "aa"))
+(def currentUrl (atom ""))
 (def setManifestUrl (atom ""))
 
 (defn setCurrentUrl [val]

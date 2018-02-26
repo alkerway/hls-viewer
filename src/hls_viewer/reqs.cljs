@@ -6,14 +6,16 @@
             [cljs.core.async :refer [<!]]))
 
 
-(defn getManifest [url]
- (go (if (re-matches #"http.*" url)
-    (let [response (<! (http/get url {:with-credentials? false}))
+(defn getManifest
+ ([url] (getManifest url false)) 
+ ([url withCredentials]
+   (go (if (re-matches #"http.*" url)
+    (let [response (<! (http/get url {:with-credentials? withCredentials}))
           code (:status response)]
           (if (and (>= code 200) (< code 300))
             (cljstr/split-lines  (:body response))
               ["Failed" (str "Status: " code)]))
-        ["Invalid Url"])))
+        ["Invalid Url"]))))
 
 (defn downloadUrl [url]
   (.open js/window url))
