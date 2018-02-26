@@ -8,7 +8,7 @@
 
 (defn getManifest
  ([url] (getManifest url false)) 
- ([url withCredentials]
+  ([url withCredentials]
    (go (if (re-matches #"http.*" url)
     (let [response (<! (http/get url {:with-credentials? withCredentials}))
           code (:status response)]

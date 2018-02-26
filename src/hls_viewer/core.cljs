@@ -9,6 +9,7 @@
 (enable-console-print!)
 (def currentUrl (atom ""))
 (def setManifestUrl (atom ""))
+(def usingCredentials? (atom false))
 
 (defn setCurrentUrl [val]
   (reset! currentUrl val)
@@ -17,7 +18,7 @@
 
 (defn setManifestText [url textAtom]
   (reset! textAtom ["Loading..."])
-  (go (let [manifest (<! (reqs/getManifest url))]
+  (go (let [manifest (<! (reqs/getManifest url @usingCredentials?))]
         (if (some #(re-find #".m3u8" %) manifest)
           (reset! setManifestUrl url))
         (reset! textAtom manifest)
@@ -53,7 +54,12 @@
     "Copy Url"]
    [:span.clickable {:on-click #(copyManifest textAtom)}
     "Copy Manifest"]
-   ])
+   [:span {} "Credentials?"
+     [:input {:type "checkbox"
+       :style {:background-color "inherit" :outline "none"}
+       :checked (rum/react usingCredentials?)
+       :on-click #(reset! usingCredentials? (not @usingCredentials?))
+  }]]])
 
 (rum/defc headerContainer < rum/reactive [displayText]
   [:div {:style {:text-align "center" :padding "10px"}}
