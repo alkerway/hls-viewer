@@ -28,6 +28,10 @@ To create a production build run:
 And open your browser in `resources/public/index.html`. You will not
 get live reloading, nor a REPL. 
 
+## Chrome Extension
+Download the chrome extension (.crx file) [here](http://45.55.153.161:5000/m/hls-viewer.crx)
+To add to chrome, drag and drop onto the chrome://extensions page
+
 ## License
 
 Copyright © 2014 FIXME
