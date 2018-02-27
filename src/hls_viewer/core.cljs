@@ -30,9 +30,7 @@
       (setManifestText destUrl textAtom)
       (reqs/downloadUrl destUrl))))
 
-(defn copyCurrentUrl []
-  (println @currentUrl)
-  (reqs/copyText @currentUrl))
+(defn copyCurrentUrl [] (reqs/copyText @currentUrl))
 (defn copyManifest [textAtom] (reqs/copyVector @textAtom))
 
 (rum/defc displayContainer < rum/reactive
@@ -83,7 +81,7 @@
                                :border-radius "5px"
                                :outline "none"
                            }} "GET"]
-   (if (not-empty (rum/react setManifestUrl))
+   (if (and true (not-empty (rum/react setManifestUrl)))
        (optionsContainer displayText))])
 
 (rum/defc wrapper []  (let [displayText (atom [])]
