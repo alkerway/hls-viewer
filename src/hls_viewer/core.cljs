@@ -92,4 +92,4 @@
 
 (defn init [] (rum/mount (wrapper)
               (.getElementById js/document "app")))
-(defn on-js-reload [] init)(init)
+(init)

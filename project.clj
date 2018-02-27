@@ -26,7 +26,7 @@
                 ;; The presence of a :figwheel configuration here
                 ;; will cause figwheel to inject the figwheel client
                 ;; into your build
-                :figwheel {:on-jsload "hls-viewer.core/on-js-reload"
+                :figwheel {:on-jsload "hls-viewer.core/init"
                            ;; :open-urls will pop open your application
                            ;; in the default browser once Figwheel has
                            ;; started and compiled your application.
@@ -46,6 +46,7 @@
                ;; lein cljsbuild once min
                {:id "min"
                 :source-paths ["src"]
+                :figwheel false
                 :compiler {:output-to "resources/public/js/compiled/hls_viewer.js"
                            :main hls-viewer.core
                            :optimizations :advanced
