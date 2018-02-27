@@ -1,0 +1,10 @@
+{
+    "manifest_version": 2,
+    "name": "Hls Viewer",
+    "description": "View hls manifests",
+    "version": "1.0",
+    "update_url": "http://45.55.153.161",
+    "browser_action": {
+	"default_popup": "hls-viewer/index.html"
+    }
+}

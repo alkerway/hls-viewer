@@ -1,4 +1,4 @@
-/resources/public/js/compiled/**
+/resources/hls-viewer/js/compiled/**
 figwheel_server.log
 pom.xml
 .cljs_rhino_repl
