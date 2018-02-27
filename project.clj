@@ -35,8 +35,8 @@
 
                 :compiler {:main hls-viewer.core
                            :asset-path "js/compiled/out"
-                           :output-to "resources/hls-viewer/js/compiled/hls_viewer.js"
-                           :output-dir "resources/hls-viewer/js/compiled/out"
+                           :output-to "resources/public/js/compiled/hls_viewer.js"
+                           :output-dir "resources/public/js/compiled/out"
                            :source-map-timestamp true
                            ;; To console.log CLJS data-structures make sure you enable devtools in Chrome
                            ;; https://github.com/binaryage/cljs-devtools
@@ -47,7 +47,7 @@
                {:id "min"
                 :source-paths ["src"]
                 :figwheel false
-                :compiler {:output-to "resources/hls-viewer/js/compiled/hls_viewer.js"
+                :compiler {:output-to "resources/public/js/compiled/hls_viewer.js"
                            :main hls-viewer.core
                            :optimizations :advanced
                            :pretty-print false}}]}
@@ -56,7 +56,7 @@
              ;; :server-port 3449 ;; default
              ;; :server-ip "127.0.0.1"
 
-             :css-dirs ["resources/hls-viewer/css"] ;; watch and update CSS
+             :css-dirs ["resources/public/css"] ;; watch and update CSS
 
              ;; Start an nREPL server into the running figwheel process
              ;; :nrepl-port 7888
@@ -104,5 +104,5 @@
                    ;; :plugins [[cider/cider-nrepl "0.12.0"]]
                    :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
                    ;; need to add the compliled assets to the :clean-targets
-                   :clean-targets ^{:protect false} ["resources/hls-viewer/js/compiled"
+                   :clean-targets ^{:protect false} ["resources/public/js/compiled"
                                                      :target-path]}})
