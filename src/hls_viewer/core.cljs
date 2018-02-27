@@ -45,14 +45,16 @@
 (rum/defc optionsContainer < rum/reactive [textAtom]
   [:div.options {:style {:font-size "10px"
                  :user-select "none"}}
-  (if (and (not-empty (rum/react setManifestUrl)) (not= (rum/react currentUrl) (rum/react setManifestUrl)))
+   (if (and (not-empty (rum/react setManifestUrl))
+            (not= (rum/react currentUrl) (rum/react setManifestUrl)))
      [:span.clickable {:on-click #(do (reset! currentUrl @setManifestUrl)
                           (setManifestText @currentUrl textAtom))}
     "Back to Set Level"])
    [:span.clickable {:on-click #(copyCurrentUrl)}
     "Copy Url"]
+   (if (not-empty (rum/react textAtom))
    [:span.clickable {:on-click #(copyManifest textAtom)}
-    "Copy Manifest"]
+    "Copy Manifest"])
    [:span "Credentials?"
      [:input {:type "checkbox"
        :style {:background-color "inherit" :outline "none"}
